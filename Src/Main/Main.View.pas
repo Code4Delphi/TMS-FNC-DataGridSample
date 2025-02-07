@@ -62,6 +62,8 @@ implementation
 procedure TMainView.FormCreate(Sender: TObject);
 begin
   ReportMemoryLeaksOnShutdown := True;
+
+  FDConnection1.Params.Database := '../BD/Code4DTeste.db';
   FDQuery1.Open;
   Self.PreencharcBoxSelection;
   Self.ConfComponentesIgualGrid;
