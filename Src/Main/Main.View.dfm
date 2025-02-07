@@ -336,6 +336,7 @@ object MainView: TMainView
     FilterAppearance.Font.Height = -11
     FilterAppearance.Font.Name = 'Segoe UI'
     FilterAppearance.Font.Style = []
+    OnGetCellData = TMSFNCDataGrid1GetCellData
     OnGetCellLayout = TMSFNCDataGrid1GetCellLayout
     Options.Filtering.Enabled = True
     Options.Sorting.Enabled = True

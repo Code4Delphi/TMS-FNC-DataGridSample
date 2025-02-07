@@ -12,7 +12,7 @@ uses
   FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteWrapper.Stat,
   FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.ExtCtrls, System.TypInfo,
-  Utils;
+  Utils, VCL.TMSFNCGridCell;
 
 type
   TMainView = class(TForm)
@@ -56,6 +56,8 @@ type
     procedure btnExportarCSVClick(Sender: TObject);
     procedure TMSFNCDataGrid1GetCellLayout(Sender: TObject; ACell: TTMSFNCDataGridCell);
     procedure ckZebrarClick(Sender: TObject);
+    procedure TMSFNCDataGrid1GetCellData(Sender: TObject; ACell: TTMSFNCDataGridCellCoord;
+      var AData: TTMSFNCDataGridCellValue);
   private
     procedure ConfComponentesIgualGrid;
     procedure PreencharcBoxSelection;
@@ -78,6 +80,9 @@ begin
   FDQuery1.Open;
   Self.PreencharcBoxSelection;
   Self.ConfComponentesIgualGrid;
+
+  //TMSFNCDataGrid1.AddProgressBar(4, 2, 80);
+  //TMSFNCDataGrid1.AddProgressBarColumn(4, 0);
 end;
 
 procedure TMainView.PreencharcBoxSelection;
@@ -96,34 +101,72 @@ begin
   cBoxSelection.ItemIndex := Integer(TMSFNCDataGrid1.Options.Selection.Mode);
 end;
 
+procedure TMainView.TMSFNCDataGrid1GetCellData(Sender: TObject; ACell: TTMSFNCDataGridCellCoord;
+  var AData: TTMSFNCDataGridCellValue);
+begin
+//  //SE LINHA NAO FIXADA
+//  if (ACell.Row >= TMSFNCDataGrid1.FixedRowCount) then
+//  begin
+//    //SE FOR A COLUNA PORCENTAGEM
+//    if ACell.Column = FDQuery1porcentagem.Index then
+//    begin
+//      LValorColunaPorcentagem := 50; //TMSFNCDataGrid1.Ints[ACell.Column, ACell.Row];
+//      TMSFNCDataGrid1.AddProgressBar(ACell.Column, ACell.Row, LValorColunaPorcentagem);
+//      //TMSFNCDataGrid1.SetProgressBar(ACell.Column, ACell.Row, LValorColunaPorcentagem);
+//    end;
+//  end;
+
+    //SE LINHA NAO FIXADA
+  if (ACell.Row >= TMSFNCDataGrid1.FixedRowCount) then
+  begin
+    //SE FOR A COLUNA PORCENTAGEM
+    if ACell.Column = FDQuery1porcentagem.Index then
+    begin
+      TMSFNCDataGrid1.SetProgressBarColumn(ACell.Column, 35);
+      //TMSFNCDataGrid1.AddProgressBar(ACell.Column, ACell.Row, LValorColunaPorcentagem);
+    end;
+  end;
+
+
+end;
+
 procedure TMainView.TMSFNCDataGrid1GetCellLayout(Sender: TObject; ACell: TTMSFNCDataGridCell);
+var
+  LValorColunaLimite: Double;
 begin
   if ckZebrar.Checked then
     if (ACell.Row mod 2) = 0 then
        ACell.Layout.Fill.Color := gcSilver;
 
-  //SE NAO FOR UMA LINHA FIXADA
-  if ACell.Row >= TMSFNCDataGrid1.FixedRowCount then
+  //SE LINHA OU COLUNA FIXADA
+  if (ACell.Row < TMSFNCDataGrid1.FixedRowCount) or (ACell.Column < TMSFNCDataGrid1.FixedColumnCount) then
   begin
-    //SE FOR A COLUNA PORCENTAGEM
-    if ACell.Column = FDQuery1porcentagem.Index then
-    begin
-      ACell.Layout.Font.Color := clGreen;
-
-      //if FDQuery1porcentagem.AsFloat < 50 then
-      //PEGA O VALOR DA PORCENTAGEM
-      if TMSFNCDataGrid1.Floats[ACell.Column, ACell.Row] < 50 then
-        ACell.Layout.Font.Color := clRed
-    end;
-  end;
-
-  //SE LINHA FIXADA
-  if ACell.Row < TMSFNCDataGrid1.FixedRowCount then
-  begin
-    //ALTERA A COR DO TOPO
     ACell.Layout.Font.Color := clHotLight;
     ACell.Layout.Font.Style := [TFontStyle.fsBold];
+    Exit;
   end;
+
+  //SE FOR A COLUNA LIMITE
+  if ACell.Column = FDQuery1limite.Index then
+  begin
+    ACell.Layout.Font.Color := clGreen;
+
+    LValorColunaLimite := TMSFNCDataGrid1.Floats[ACell.Column, ACell.Row];
+    if LValorColunaLimite < 2000 then
+      ACell.Layout.Font.Color := clRed
+  end;
+
+
+//  //SE LINHA NAO FIXADA
+//  if (ACell.Row >= TMSFNCDataGrid1.FixedRowCount) then
+//  begin
+//    //SE FOR A COLUNA PORCENTAGEM
+//    if ACell.Column = FDQuery1porcentagem.Index then
+//    begin
+//      TMSFNCDataGrid1.SetProgressBarColumn(ACell.Column, 35);
+//      //TMSFNCDataGrid1.AddProgressBar(ACell.Column, ACell.Row, LValorColunaPorcentagem);
+//    end;
+//  end;
 end;
 
 procedure TMainView.ConfComponentesIgualGrid;
