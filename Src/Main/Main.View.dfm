@@ -336,6 +336,7 @@ object MainView: TMainView
     FilterAppearance.Font.Height = -11
     FilterAppearance.Font.Name = 'Segoe UI'
     FilterAppearance.Font.Style = []
+    OnGetCellLayout = TMSFNCDataGrid1GetCellLayout
     Options.Filtering.Enabled = True
     Options.Sorting.Enabled = True
     Options.Selection.Mode = gsmSingleRow
@@ -425,12 +426,24 @@ object MainView: TMainView
       object ckPermitirFiltros: TCheckBox
         Left = 232
         Top = 0
-        Width = 123
+        Width = 105
         Height = 38
         Align = alLeft
         Caption = 'Permitir filtros'
         TabOrder = 2
         OnClick = ckPermitirFiltrosClick
+      end
+      object ckZebrar: TCheckBox
+        Left = 337
+        Top = 0
+        Width = 86
+        Height = 38
+        Align = alLeft
+        Caption = 'Zebrar grid'
+        TabOrder = 3
+        OnClick = ckZebrarClick
+        ExplicitLeft = 361
+        ExplicitTop = -4
       end
     end
     object btnExportarCSV: TButton
@@ -527,5 +540,56 @@ object MainView: TMainView
       'JOIN cidades on cidades.id = clientes.id_cidade')
     Left = 760
     Top = 136
+    object FDQuery1id: TFDAutoIncField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'id'
+      Origin = 'id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = False
+    end
+    object FDQuery1nome: TWideStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'nome'
+      Origin = 'nome'
+      Required = True
+      Size = 50
+    end
+    object FDQuery1profissao: TWideStringField
+      DisplayLabel = 'Profiss'#227'o'
+      FieldName = 'profissao'
+      Origin = 'profissao'
+      Size = 60
+    end
+    object FDQuery1limite: TFloatField
+      DisplayLabel = 'Limite'
+      FieldName = 'limite'
+      Origin = 'limite'
+    end
+    object FDQuery1porcentagem: TIntegerField
+      DisplayLabel = 'Porcentagem'
+      FieldName = 'porcentagem'
+      Origin = 'porcentagem'
+    end
+    object FDQuery1ativo: TWideStringField
+      DisplayLabel = 'Ativo'
+      FieldName = 'ativo'
+      Origin = 'ativo'
+      Size = 1
+    end
+    object FDQuery1id_cidade: TIntegerField
+      DisplayLabel = 'C'#243'd. cidade'
+      FieldName = 'id_cidade'
+      Origin = 'id_cidade'
+      Required = True
+    end
+    object FDQuery1CidadeNome: TWideStringField
+      AutoGenerateValue = arDefault
+      DisplayLabel = 'Cidade'
+      FieldName = 'CidadeNome'
+      Origin = 'nome'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 40
+    end
   end
 end

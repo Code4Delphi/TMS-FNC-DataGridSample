@@ -35,6 +35,15 @@ type
     Button1: TButton;
     btnExportarCSV: TButton;
     btnExportarHTML: TButton;
+    ckZebrar: TCheckBox;
+    FDQuery1id: TFDAutoIncField;
+    FDQuery1nome: TWideStringField;
+    FDQuery1profissao: TWideStringField;
+    FDQuery1limite: TFloatField;
+    FDQuery1porcentagem: TIntegerField;
+    FDQuery1ativo: TWideStringField;
+    FDQuery1id_cidade: TIntegerField;
+    FDQuery1CidadeNome: TWideStringField;
     procedure FormCreate(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnOpenClick(Sender: TObject);
@@ -45,6 +54,8 @@ type
     procedure cBoxSelectionChange(Sender: TObject);
     procedure btnExportarHTMLClick(Sender: TObject);
     procedure btnExportarCSVClick(Sender: TObject);
+    procedure TMSFNCDataGrid1GetCellLayout(Sender: TObject; ACell: TTMSFNCDataGridCell);
+    procedure ckZebrarClick(Sender: TObject);
   private
     procedure ConfComponentesIgualGrid;
     procedure PreencharcBoxSelection;
@@ -83,6 +94,36 @@ begin
   end;
 
   cBoxSelection.ItemIndex := Integer(TMSFNCDataGrid1.Options.Selection.Mode);
+end;
+
+procedure TMainView.TMSFNCDataGrid1GetCellLayout(Sender: TObject; ACell: TTMSFNCDataGridCell);
+begin
+  if ckZebrar.Checked then
+    if (ACell.Row mod 2) = 0 then
+       ACell.Layout.Fill.Color := gcSilver;
+
+  //SE NAO FOR UMA LINHA FIXADA
+  if ACell.Row >= TMSFNCDataGrid1.FixedRowCount then
+  begin
+    //SE FOR A COLUNA PORCENTAGEM
+    if ACell.Column = FDQuery1porcentagem.Index then
+    begin
+      ACell.Layout.Font.Color := clGreen;
+
+      //if FDQuery1porcentagem.AsFloat < 50 then
+      //PEGA O VALOR DA PORCENTAGEM
+      if TMSFNCDataGrid1.Floats[ACell.Column, ACell.Row] < 50 then
+        ACell.Layout.Font.Color := clRed
+    end;
+  end;
+
+  //SE LINHA FIXADA
+  if ACell.Row < TMSFNCDataGrid1.FixedRowCount then
+  begin
+    //ALTERA A COR DO TOPO
+    ACell.Layout.Font.Color := clHotLight;
+    ACell.Layout.Font.Style := [TFontStyle.fsBold];
+  end;
 end;
 
 procedure TMainView.ConfComponentesIgualGrid;
@@ -143,6 +184,11 @@ begin
   LFileName := TUtils.GetNameFileHTML;
   if not LFileName.IsEmpty then
     TMSFNCDataGrid1.SaveToHTMLData(LFileName);
+end;
+
+procedure TMainView.ckZebrarClick(Sender: TObject);
+begin
+  btnRefresh.Click;
 end;
 
 end.
