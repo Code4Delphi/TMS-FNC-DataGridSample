@@ -11,6 +11,15 @@
 ## Onde baixar
 - https://www.tmssoftware.com/site/tmsfncuipack-grid.asp
 
+## Nosso vídeo com demostrações
+- Link em breve
+
+## Playlist oficial (com legendas em português)
+- https://www.youtube.com/playlist?list=PLp3eFyNKVPpuv7BAEO0Uu6dxxTPg60pBq
+
+## Pasta com demos oficiais
+- C:\Users\ALTERAR_PARA_NOME_DO_USUARIO\AppData\Local\tmssoftware\trial\TMSFNCUIPack RSXE15\Demos
+
 ## Screenshots
 ![image](https://github.com/user-attachments/assets/466e0914-e026-4f11-bd3b-46e45299c85d)
 
