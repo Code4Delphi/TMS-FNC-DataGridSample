@@ -12,7 +12,7 @@
 - https://www.tmssoftware.com/site/tmsfncuipack-grid.asp
 
 ## Nosso vídeo com demostrações
-- Link em breve
+- https://youtu.be/gB2Fz69LlDs
 
 ## Documentação oficial
 https://download.tmssoftware.com/doc/tmsfncuipack/components/ttmsfncgrid/
