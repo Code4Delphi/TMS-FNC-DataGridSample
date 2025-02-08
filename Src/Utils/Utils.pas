@@ -10,10 +10,12 @@ uses
 type
   TUtils = class
   private
+
   public
     class function GetNameFileCSV: string;
     class function GetNameFile(const AExtensao: string): string;
     class function GetNameFileHTML: string;
+    class function GetNameFileXLS: string;
   end;
 
 implementation
@@ -46,5 +48,9 @@ begin
   Result := Self.GetNameFile('html');
 end;
 
+class function TUtils.GetNameFileXLS: string;
+begin
+  Result := Self.GetNameFile('xls');
+end;
 
 end.

@@ -12,7 +12,7 @@ uses
   FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteWrapper.Stat,
   FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.ExtCtrls, System.TypInfo,
-  Utils, VCL.TMSFNCGridCell;
+  Utils, VCL.TMSFNCGridCell, VCL.TMSFNCDataGridExcelIO, VCL.TMSFNCBitmapContainer;
 
 type
   TMainView = class(TForm)
@@ -32,7 +32,6 @@ type
     pnRodape02: TPanel;
     Label1: TLabel;
     cBoxSelection: TComboBox;
-    Button1: TButton;
     btnExportarCSV: TButton;
     btnExportarHTML: TButton;
     ckZebrar: TCheckBox;
@@ -44,6 +43,11 @@ type
     FDQuery1ativo: TWideStringField;
     FDQuery1id_cidade: TIntegerField;
     FDQuery1CidadeNome: TWideStringField;
+    TMSFNCDataGridExcelIO1: TTMSFNCDataGridExcelIO;
+    btnExportarExcel: TButton;
+    Button1: TButton;
+    Button2: TButton;
+    TMSFNCBitmapContainer1: TTMSFNCBitmapContainer;
     procedure FormCreate(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnOpenClick(Sender: TObject);
@@ -58,6 +62,9 @@ type
     procedure ckZebrarClick(Sender: TObject);
     procedure TMSFNCDataGrid1GetCellData(Sender: TObject; ACell: TTMSFNCDataGridCellCoord;
       var AData: TTMSFNCDataGridCellValue);
+    procedure btnExportarExcelClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     procedure ConfComponentesIgualGrid;
     procedure PreencharcBoxSelection;
@@ -82,7 +89,7 @@ begin
   Self.ConfComponentesIgualGrid;
 
   //TMSFNCDataGrid1.AddProgressBar(4, 2, 80);
-  //TMSFNCDataGrid1.AddProgressBarColumn(4, 0);
+  TMSFNCDataGrid1.AddProgressBarColumn(4, 0);
 end;
 
 procedure TMainView.PreencharcBoxSelection;
@@ -103,6 +110,8 @@ end;
 
 procedure TMainView.TMSFNCDataGrid1GetCellData(Sender: TObject; ACell: TTMSFNCDataGridCellCoord;
   var AData: TTMSFNCDataGridCellValue);
+var
+  LNomeBitmap: string;
 begin
 //  //SE LINHA NAO FIXADA
 //  if (ACell.Row >= TMSFNCDataGrid1.FixedRowCount) then
@@ -117,16 +126,35 @@ begin
 //  end;
 
     //SE LINHA NAO FIXADA
+//  if (ACell.Row >= TMSFNCDataGrid1.FixedRowCount) then
+//  begin
+//    //SE FOR A COLUNA PORCENTAGEM
+//    if ACell.Column = FDQuery1porcentagem.Index then
+//    begin
+//      //TMSFNCDataGrid1.AddProgressBar(ACell.Column, ACell.Row, 80);
+//      //TMSFNCDataGrid1.AddProgressBar(ACell.Column, ACell.Row, LValorColunaPorcentagem);
+//
+//      //TMSFNCDataGrid1.SetProgressBar(ACell.Column, ACell.Row, 20);
+//      TMSFNCDataGrid1.SetProgressBar(ACell, 95);
+//    end;
+//  end;
+
   if (ACell.Row >= TMSFNCDataGrid1.FixedRowCount) then
   begin
     //SE FOR A COLUNA PORCENTAGEM
-    if ACell.Column = FDQuery1porcentagem.Index then
+    if ACell.Column = FDQuery1ativo.Index then
     begin
-      TMSFNCDataGrid1.SetProgressBarColumn(ACell.Column, 35);
+      //TMSFNCDataGrid1.AddProgressBar(ACell.Column, ACell.Row, 80);
       //TMSFNCDataGrid1.AddProgressBar(ACell.Column, ACell.Row, LValorColunaPorcentagem);
+
+      //TMSFNCDataGrid1.SetProgressBar(ACell.Column, ACell.Row, 20);
+
+      LNomeBitmap := 'Item1';
+      if TMSFNCDataGrid1.Strings[ACell.Column, ACell.Row] = 'F' then
+        LNomeBitmap := 'Item2';
+      TMSFNCDataGrid1.AddBitmap(ACell.Column, ACell.Row, LNomeBitmap);
     end;
   end;
-
 
 end;
 
@@ -155,18 +183,6 @@ begin
     if LValorColunaLimite < 2000 then
       ACell.Layout.Font.Color := clRed
   end;
-
-
-//  //SE LINHA NAO FIXADA
-//  if (ACell.Row >= TMSFNCDataGrid1.FixedRowCount) then
-//  begin
-//    //SE FOR A COLUNA PORCENTAGEM
-//    if ACell.Column = FDQuery1porcentagem.Index then
-//    begin
-//      TMSFNCDataGrid1.SetProgressBarColumn(ACell.Column, 35);
-//      //TMSFNCDataGrid1.AddProgressBar(ACell.Column, ACell.Row, LValorColunaPorcentagem);
-//    end;
-//  end;
 end;
 
 procedure TMainView.ConfComponentesIgualGrid;
@@ -232,6 +248,27 @@ end;
 procedure TMainView.ckZebrarClick(Sender: TObject);
 begin
   btnRefresh.Click;
+end;
+
+procedure TMainView.btnExportarExcelClick(Sender: TObject);
+begin
+  TMSFNCDataGridExcelIO1.XLSExport('MeuTeste.xls');
+  TTMSFNCUtils.OpenFile('MeuTeste.xls');
+end;
+
+procedure TMainView.Button1Click(Sender: TObject);
+var
+  LFileName: string;
+begin
+  LFileName := TUtils.GetNameFileXLS;
+  if not LFileName.IsEmpty then
+  TMSFNCDataGridExcelIO1.XLSImport(LFileName);
+end;
+
+procedure TMainView.Button2Click(Sender: TObject);
+begin
+  //TMSFNCDataGrid1.AddProgressBar(4, 2, 80);
+  TMSFNCDataGrid1.SetProgressBar(4, 2, 80);
 end;
 
 end.
