@@ -3,7 +3,7 @@ unit Main.View;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.StrUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VCL.TMSFNCTypes, VCL.TMSFNCUtils, VCL.TMSFNCGraphics, VCL.TMSFNCGraphicsTypes,
   System.Rtti, VCL.TMSFNCDataGridCell, VCL.TMSFNCDataGridData, VCL.TMSFNCDataGridBase, VCL.TMSFNCDataGridCore,
   VCL.TMSFNCDataGridRenderer, Data.DB, VCL.TMSFNCCustomComponent, VCL.TMSFNCDataGridDatabaseAdapter,
@@ -48,6 +48,7 @@ type
     Button1: TButton;
     Button2: TButton;
     TMSFNCBitmapContainer1: TTMSFNCBitmapContainer;
+    Memo1: TMemo;
     procedure FormCreate(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnOpenClick(Sender: TObject);
@@ -110,8 +111,6 @@ end;
 
 procedure TMainView.TMSFNCDataGrid1GetCellData(Sender: TObject; ACell: TTMSFNCDataGridCellCoord;
   var AData: TTMSFNCDataGridCellValue);
-var
-  LNomeBitmap: string;
 begin
 //  //SE LINHA NAO FIXADA
 //  if (ACell.Row >= TMSFNCDataGrid1.FixedRowCount) then
@@ -139,23 +138,13 @@ begin
 //    end;
 //  end;
 
+  //SE NAO FOR UMA LINHA FIXA
   if (ACell.Row >= TMSFNCDataGrid1.FixedRowCount) then
   begin
     //SE FOR A COLUNA PORCENTAGEM
     if ACell.Column = FDQuery1ativo.Index then
-    begin
-      //TMSFNCDataGrid1.AddProgressBar(ACell.Column, ACell.Row, 80);
-      //TMSFNCDataGrid1.AddProgressBar(ACell.Column, ACell.Row, LValorColunaPorcentagem);
-
-      //TMSFNCDataGrid1.SetProgressBar(ACell.Column, ACell.Row, 20);
-
-      LNomeBitmap := 'Item1';
-      if TMSFNCDataGrid1.Strings[ACell.Column, ACell.Row] = 'F' then
-        LNomeBitmap := 'Item2';
-      TMSFNCDataGrid1.AddBitmap(ACell.Column, ACell.Row, LNomeBitmap);
-    end;
+      TMSFNCDataGrid1.AddBitmap(ACell.Column, ACell.Row, IfThen(AData.AsString = 'F', 'False', 'True'));
   end;
-
 end;
 
 procedure TMainView.TMSFNCDataGrid1GetCellLayout(Sender: TObject; ACell: TTMSFNCDataGridCell);
@@ -182,6 +171,17 @@ begin
     LValorColunaLimite := TMSFNCDataGrid1.Floats[ACell.Column, ACell.Row];
     if LValorColunaLimite < 2000 then
       ACell.Layout.Font.Color := clRed
+  end;
+
+  //SE FOR A COLUNA ATIVO
+  if ACell.Column = FDQuery1ativo.Index then
+    ACell.Layout.Font.Color := ACell.Layout.Fill.Color;
+
+  //SE FOR A COLUNA PORCENTAGEM
+  if ACell.Column = FDQuery1porcentagem.Index then
+  begin
+    if ACell.IsProgressBarCell then
+      ACell.AsProgressBarCell.Value := TMSFNCDataGrid1.Ints[ACell.Column, ACell.Row];
   end;
 end;
 
