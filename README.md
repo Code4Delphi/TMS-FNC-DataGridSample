@@ -1,7 +1,7 @@
 # FNC Data Grid - Demo
 
 ## O que ele faz
-- Grid com diversos recurso e de alto desempenho
+- O TMS FNC Grid oferece uma grade totalmente multiplataforma, de alto desempenho, versátil e repleta de recursos
 - Pode ser usado da forma na **VCL**, **FireMonkey** e **WEB**
 - Com recursos de visualização de dados, como filtragem, classificação e agrupamento de várias colunas e vários níveis
 - Relacionamentos **mestre-detalhe**
@@ -13,6 +13,9 @@
 
 ## Nosso vídeo com demostrações
 - Link em breve
+
+## Documentação oficial
+https://download.tmssoftware.com/doc/tmsfncuipack/components/ttmsfncgrid/
 
 ## Playlist oficial (com legendas em português)
 - https://www.youtube.com/playlist?list=PLp3eFyNKVPpuv7BAEO0Uu6dxxTPg60pBq
