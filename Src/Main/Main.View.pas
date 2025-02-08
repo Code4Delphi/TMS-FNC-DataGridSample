@@ -46,9 +46,8 @@ type
     TMSFNCDataGridExcelIO1: TTMSFNCDataGridExcelIO;
     btnExportarExcel: TButton;
     Button1: TButton;
-    Button2: TButton;
     TMSFNCBitmapContainer1: TTMSFNCBitmapContainer;
-    Memo1: TMemo;
+    ckProgressBar: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnOpenClick(Sender: TObject);
@@ -69,6 +68,7 @@ type
   private
     procedure ConfComponentesIgualGrid;
     procedure PreencharcBoxSelection;
+    procedure AbrirQuery;
   public
 
   end;
@@ -85,12 +85,9 @@ begin
   ReportMemoryLeaksOnShutdown := True;
 
   FDConnection1.Params.Database := '../BD/Code4DTeste.db';
-  FDQuery1.Open;
+  Self.AbrirQuery;
   Self.PreencharcBoxSelection;
   Self.ConfComponentesIgualGrid;
-
-  //TMSFNCDataGrid1.AddProgressBar(4, 2, 80);
-  TMSFNCDataGrid1.AddProgressBarColumn(4, 0);
 end;
 
 procedure TMainView.PreencharcBoxSelection;
@@ -112,32 +109,6 @@ end;
 procedure TMainView.TMSFNCDataGrid1GetCellData(Sender: TObject; ACell: TTMSFNCDataGridCellCoord;
   var AData: TTMSFNCDataGridCellValue);
 begin
-//  //SE LINHA NAO FIXADA
-//  if (ACell.Row >= TMSFNCDataGrid1.FixedRowCount) then
-//  begin
-//    //SE FOR A COLUNA PORCENTAGEM
-//    if ACell.Column = FDQuery1porcentagem.Index then
-//    begin
-//      LValorColunaPorcentagem := 50; //TMSFNCDataGrid1.Ints[ACell.Column, ACell.Row];
-//      TMSFNCDataGrid1.AddProgressBar(ACell.Column, ACell.Row, LValorColunaPorcentagem);
-//      //TMSFNCDataGrid1.SetProgressBar(ACell.Column, ACell.Row, LValorColunaPorcentagem);
-//    end;
-//  end;
-
-    //SE LINHA NAO FIXADA
-//  if (ACell.Row >= TMSFNCDataGrid1.FixedRowCount) then
-//  begin
-//    //SE FOR A COLUNA PORCENTAGEM
-//    if ACell.Column = FDQuery1porcentagem.Index then
-//    begin
-//      //TMSFNCDataGrid1.AddProgressBar(ACell.Column, ACell.Row, 80);
-//      //TMSFNCDataGrid1.AddProgressBar(ACell.Column, ACell.Row, LValorColunaPorcentagem);
-//
-//      //TMSFNCDataGrid1.SetProgressBar(ACell.Column, ACell.Row, 20);
-//      TMSFNCDataGrid1.SetProgressBar(ACell, 95);
-//    end;
-//  end;
-
   //SE NAO FOR UMA LINHA FIXA
   if (ACell.Row >= TMSFNCDataGrid1.FixedRowCount) then
   begin
@@ -199,12 +170,20 @@ end;
 
 procedure TMainView.btnOpenClick(Sender: TObject);
 begin
-  FDQuery1.Open;
+  Self.AbrirQuery;
 end;
 
 procedure TMainView.btnRefreshClick(Sender: TObject);
 begin
-  FDQuery1.Refresh;
+  FDQuery1.Close;
+  Self.AbrirQuery;
+end;
+
+procedure TMainView.AbrirQuery;
+begin
+  FDQuery1.Open;
+  if ckProgressBar.Checked then
+    TMSFNCDataGrid1.AddProgressBarColumn(FDQuery1porcentagem.Index, 0);
 end;
 
 procedure TMainView.ckUsarOrdenacaoClick(Sender: TObject);

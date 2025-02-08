@@ -3514,16 +3514,6 @@ object MainView: TMainView
           Tag = 0
         end>
     end
-    object Memo1: TMemo
-      Left = 999
-      Top = 137
-      Width = 233
-      Height = 281
-      Lines.Strings = (
-        'Memo1')
-      ScrollBars = ssVertical
-      TabOrder = 4
-    end
   end
   object pnRodape01: TPanel
     Left = 0
@@ -3538,7 +3528,7 @@ object MainView: TMainView
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 75
+      Width = 57
       Height = 32
       Align = alLeft
       Caption = 'Close'
@@ -3547,9 +3537,9 @@ object MainView: TMainView
     end
     object btnOpen: TButton
       AlignWithMargins = True
-      Left = 84
+      Left = 66
       Top = 3
-      Width = 75
+      Width = 57
       Height = 32
       Align = alLeft
       Caption = 'Open'
@@ -3558,9 +3548,9 @@ object MainView: TMainView
     end
     object btnRefresh: TButton
       AlignWithMargins = True
-      Left = 165
+      Left = 129
       Top = 3
-      Width = 75
+      Width = 57
       Height = 32
       Align = alLeft
       Caption = 'Refresh'
@@ -3568,16 +3558,15 @@ object MainView: TMainView
       OnClick = btnRefreshClick
     end
     object pnBotoesDireita: TPanel
-      Left = 807
+      Left = 674
       Top = 0
-      Width = 464
+      Width = 597
       Height = 38
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 3
-      ExplicitLeft = 570
+      ExplicitLeft = 677
       ExplicitTop = -4
-      ExplicitWidth = 704
       object ckUsarOrdenacao: TCheckBox
         Left = 0
         Top = 0
@@ -3620,55 +3609,62 @@ object MainView: TMainView
         ExplicitLeft = 361
         ExplicitTop = -4
       end
+      object ckProgressBar: TCheckBox
+        Left = 423
+        Top = 0
+        Width = 146
+        Height = 38
+        Align = alLeft
+        Caption = 'Mostrar ProgressBar'
+        Checked = True
+        State = cbChecked
+        TabOrder = 4
+        OnClick = ckZebrarClick
+      end
     end
     object btnExportarCSV: TButton
       AlignWithMargins = True
-      Left = 504
+      Left = 428
       Top = 3
-      Width = 138
+      Width = 127
       Height = 32
       Align = alLeft
       Caption = 'Exportar para CSV'
       TabOrder = 4
       OnClick = btnExportarCSVClick
-      ExplicitLeft = 375
     end
     object btnExportarHTML: TButton
       AlignWithMargins = True
-      Left = 648
+      Left = 561
       Top = 3
-      Width = 156
+      Width = 110
       Height = 32
       Align = alLeft
       Caption = 'Exportar para HTML'
       TabOrder = 5
       OnClick = btnExportarHTMLClick
-      ExplicitLeft = 408
     end
     object btnExportarExcel: TButton
       AlignWithMargins = True
-      Left = 246
+      Left = 192
       Top = 3
-      Width = 123
+      Width = 112
       Height = 32
       Align = alLeft
       Caption = 'Exportar para Excel'
       TabOrder = 6
       OnClick = btnExportarExcelClick
-      ExplicitTop = 2
     end
     object Button1: TButton
       AlignWithMargins = True
-      Left = 375
+      Left = 310
       Top = 3
-      Width = 123
+      Width = 112
       Height = 32
       Align = alLeft
       Caption = 'Importar para Excel'
       TabOrder = 7
       OnClick = Button1Click
-      ExplicitLeft = 438
-      ExplicitTop = 4
     end
   end
   object pnRodape02: TPanel
@@ -3703,15 +3699,6 @@ object MainView: TMainView
       TabOrder = 0
       OnChange = cBoxSelectionChange
     end
-    object Button2: TButton
-      Left = 336
-      Top = 1
-      Width = 75
-      Height = 25
-      Caption = 'Button2'
-      TabOrder = 1
-      OnClick = Button2Click
-    end
   end
   object DataSource1: TDataSource
     DataSet = FDQuery1
@@ -3722,7 +3709,6 @@ object MainView: TMainView
     Params.Strings = (
       'Database=C:\Utilitarios\TMS-FNC-DataGridSample\BD\Code4DTeste.db'
       'DriverID=SQLite')
-    Connected = True
     LoginPrompt = False
     Left = 760
     Top = 80
@@ -3741,7 +3727,7 @@ object MainView: TMainView
       'cidades.nome as CidadeNome'
       'from clientes'
       'JOIN cidades on cidades.id = clientes.id_cidade'
-      'limit 5')
+      '')
     Left = 760
     Top = 136
     object FDQuery1id: TFDAutoIncField
@@ -3771,7 +3757,7 @@ object MainView: TMainView
     end
     object FDQuery1porcentagem: TIntegerField
       DisplayLabel = 'Porcentagem'
-      DisplayWidth = 40
+      DisplayWidth = 25
       FieldName = 'porcentagem'
       Origin = 'porcentagem'
     end
